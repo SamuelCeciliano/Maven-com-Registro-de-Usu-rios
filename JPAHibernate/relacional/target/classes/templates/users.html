@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Usuários</title>
+    <!-- Link para o Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Gerenciamento de Usuários</h1>
+
+    <h2>Profissões</h2>
+    <form action="#" method="post" th:action="@{/addProfissao}" class="mb-4">
+        <div class="form-group">
+            <input type="text" name="titulo" placeholder="Título da Profissão" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Inserir a Profissão</button>
+    </form>
+
+    <h2>Usuários</h2>
+    <form action="#" th:action="@{/addUser}" method="post" class="mb-4">
+        <div class="form-group">
+            <input type="text" name="nome" placeholder="Nome do Usuário" class="form-control" required />
+            <select name="profissaoId" required>
+                <option th:each="profissao: ${profissoes}" th:value="${profissao.id}" th:text="${profissao.titulo}"></option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Inserir Usuário</button>
+    </form>
+
+    <h3 class="text-center my-4">Lista de Usuários</h3>
+
+    <!-- Tabela de usuários -->
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Profissão</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Lista de usuários será adicionada aqui -->
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.nome}"></td>
+                <td th:text="${user.profissao.titulo}"></td>
+                <td>
+                    <!-- Link para editar o perfil -->
+                    <a href="/editUser/{id}" th:href="@{/editUser/{id}(id=${user.id})}" class="btn btn-primary btn-sm">Ver Perfil</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Botões de Exportação -->
+    <div class="mb-4">
+        <a href="/exportCSV" class="btn btn-warning">Exportar em CSV</a>
+        <a href="/exportTXT" class="btn btn-info">Exportar em TXT</a>
+    </div>
+
+</div>
+</body>
+</html>
